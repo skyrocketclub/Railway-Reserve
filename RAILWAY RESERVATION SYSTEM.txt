@@ -1,0 +1,65 @@
+What the Program features
+
+1 - Two Modes
+2 - Password Protection
+3 - Some Basic File Handling
+
+FEATURES
+
+1 - ADMINISTRATOR MODE
+
+You Have to create Users from the Admin Mode
+You can
+	a - Create Detail database
+	b - Add Detail
+	c - Display Details
+	d - Perform User management functions
+	e - Display Passenger details
+
+2 - USER MODE
+
+Information relatedt to these users are stored in separate files
+You can
+	a - Create ID Database
+	b - add details
+	c - Display details
+
+Train Details (In case of the reservation enquiry)
+	a - Tain No
+	b - Train Name
+	c - Boarding point
+	d - Destination Point
+	e - no of seats in first class & fare per ticket 
+	f - no of seats in first class & fare per ticket
+
+Train Details (In case of the reservation already done)
+	a - Train No
+	b - Train Name
+	c - Boarding Point
+	d - Destination Point
+	e - No of seats required
+	f - Seat class specification
+	g - Date of Reservation
+	h - Passenger Category
+		Military
+		Senior Citizen
+		Children
+		None
+	i - Amount to be paid 
+	j - (According to no of sits)
+		 Passenger name;
+		 Passenger Age are to be provided
+
+Cancel Reservation
+	The Cancellation details to be displayed
+		a - Train Name
+		b - Boarding Point
+		c - Destination Point
+		d - Passenger Class
+		e - No of seats to be cancelled
+		f - Passenger name and age
+		g - Date of cancellation
+		h - amount to be collected back
+Password
+	Admin Mode has a password===
+		Wrong Password bounces you back...

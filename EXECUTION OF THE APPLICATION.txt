@@ -1,0 +1,41 @@
+
+ADMIN MODE
+
+1 you create reservations from the Admin Mode
+2 The Pass word is 0000
+3 When typing the password, '*' displays on the screen....
+4 Every Train Reservation Has a Tag number (Integer)----
+5 You can create the train database for several train station
+	
+The things that you work on while creating the database...
+
+Station 1 [Yaba Station]
+		Trips Available
+			(yaba - Unilag)
+				Train Details (In case of the reservation enquiry)
+					a - Tain No
+					b - Train Name
+					c - Boarding point
+					d - Destination Point
+					e - no of seats in first class & fare per ticket 
+					f - no of seats in first class & fare per ticket
+
+			(Yaba - Ikeja)
+
+				Train Details (In case of the reservation enquiry)
+					a - Tain No
+					b - Train Name
+					c - Boarding point
+					d - Destination Point
+					e - no of seats in first class & fare per ticket 
+					f - no of seats in first class & fare per ticket
+
+			(Yaba - CMS)
+
+				Train Details (In case of the reservation enquiry)
+					a - Tain No
+					b - Train Name
+					c - Boarding point
+					d - Destination Point
+					e - no of seats in first class & fare per ticket 
+					f - no of seats in first class & fare per ticket
