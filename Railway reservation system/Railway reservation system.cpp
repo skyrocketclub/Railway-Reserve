@@ -3,15 +3,61 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <direct.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iomanip>
 
-using namespace std;
+
+void choose_mode();
+void display_menu();
+void quit();
+
+char quitter{ '1'};
 
 int main()
 {
+	std::cout <<std::setw(50)<< "RAILWAY RESERVATION SYSTEM" << std::endl;
+	std::cout << std::setw(75) << std::setfill('=') << " " << std::endl;
+	display_menu();
+
+	return 0;
+}
+
+
+
+void display_menu() {
+	if (quitter != '0') {
+		std::cout << "WHAT OPERATION WOULD YOU LIKE TO CARRY OUT\m1 - CHOOSE MODE\n2 - QUIT\nOPTION: ";
+	}
+}
+
+void choose_mode() {
+	system("CLS");
+	int option{};
+	std::string entry;
+	bool done{ false };
+
+	do {
+		std::cout << "WHAT MODE WOULD YOU LIKE TO ENTER?\n1 - ADMIN MODE\n2 - USER MODE\nOPTION: ";
+		
+		std::cin >> entry;
+		std::istringstream validator{ entry };
+
+		if (validator >> option && (option ==1 ||option == 2)) {
+			done = true;
+		}
+		else {
+			std::cout << "KINDLY ENTER A VALID OPTION\n";
+		}
+	} while (!done);
+
 	
+}
+
+void quit() {
+	quitter = '0';
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -18,7 +18,7 @@ You can
 
 2 - USER MODE
 
-Information relatedt to these users are stored in separate files
+Information related to these users are stored in separate files
 You can
 	a - Create ID Database
 	b - add details
