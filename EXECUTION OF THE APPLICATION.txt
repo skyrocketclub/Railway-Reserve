@@ -58,7 +58,7 @@ Station 1 [Yaba Station]
 
 9 You can also create new users..... where they also enter their details...
 ---------------------------------------------------------------------------------------------------------------
-10 In the users place, there will  always be a verification to confirm thr person is a user
+10 In the users place, there will  always be a verification to confirm the person is a user
 
 The person can then 
 	Get Details of train
@@ -66,10 +66,23 @@ The person can then
 
 
 .txt files
-
+{ALL THE FILES WILL BE STORED IN A FOLDER CALLED RAIL_FILES}
 1. where user details are stored
 2. where train details are stored
 3. where the reservations done are stored
 4. where the reservations cancelled are stored...
 
 functions to be created.
+
+1 - ADMIN MODE
+	UPDATE THE DETAILS FOR THE STATIONS (1 & 2)
+	CREATE A NEW USER
+	VIEW RESERVATIONS (ALL RESERVATIONS ARE DONE IN THE USER MODE)
+	VIEW CANCELLED RESERVATIONS (ALL RESERVATIONS CANCELLATIONS ARE DONE IN THE USER MODE)
+
+2 - USER MODE
+	EVERY USER HAS TO LOG IN BEFORE ACTION IS GRANTED
+	MAKE A RESERVATION
+		YOU CHOOSE THE STATIONS AND THE TRAIN YOU WANT
+	DELETE A RESERVATION
+	

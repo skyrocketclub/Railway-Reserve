@@ -13,6 +13,8 @@
 void choose_mode();
 void display_menu();
 void quit();
+void admin_mode();
+void user_mode();
 
 char quitter{ '1'};
 
@@ -29,7 +31,39 @@ int main()
 
 void display_menu() {
 	if (quitter != '0') {
-		std::cout << "WHAT OPERATION WOULD YOU LIKE TO CARRY OUT\m1 - CHOOSE MODE\n2 - QUIT\nOPTION: ";
+		int option{};
+		std::string entry{};
+		bool done{ false };
+
+		std::cout << "1 - CHOOSE MODE\n2 - QUIT\n";
+		do {
+			std::cout << "OPTION: ";
+			std::cin >> entry;
+			std::istringstream validator{ entry };
+			if (validator >> option && (option == 1 || option == 2)) {
+				done = true;
+			}
+			else {
+				std::cout << "PLEASE ENTER A VALID OPTION\n"<<std::endl;
+			}
+		} while (!done);
+		switch (option)
+		{
+			case 1:
+			{
+				choose_mode();
+				display_menu();
+			}
+			break;
+			case 2:
+			{
+				quit();
+			}
+			break;
+
+			default:
+			{}
+		}
 	}
 }
 
@@ -56,7 +90,17 @@ void choose_mode() {
 	
 }
 
+void admin_mode() {
+
+}
+void user_mode() {
+
+}
+
+
 void quit() {
+	system("CLS");
+	std::cout << "\t\t\t\tGOODBYE\n\n\n";
 	quitter = '0';
 }
 
