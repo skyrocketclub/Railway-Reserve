@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iomanip>
+#include <string>
+#include <conio.h>
 
 
 void choose_mode();
@@ -15,6 +17,7 @@ void display_menu();
 void quit();
 void admin_mode();
 void user_mode();
+bool grant_access();
 
 char quitter{ '1'};
 
@@ -87,12 +90,84 @@ void choose_mode() {
 		}
 	} while (!done);
 
+	if (option == 1) {
+		admin_mode();
+	}
+	else {
+		user_mode();
+	}
 	
+}
+
+bool grant_access() {
+	system("CLS");
+	int ch;
+	std::string pass;
+	bool done{ false };
+
+	
+		std::cout << "ENTER ADMIN PASSWORD\nPASSWORD: ";
+		ch = _getch();
+
+		while (ch != 13) {
+			pass.push_back(ch);
+			std::cout << '*';
+			ch = _getch();
+		}
+
+		if (pass == "0000") {
+			done = true;
+			system("CLS");
+			std::cout << "WLECOME DEAR ADMINISTRATOR - THE TRANSPORT SYSTEM IS IN YOUR HANDS\n\n";
+		}
+
+		else {
+			std::cout << "\n\nYOU ENTERED AN INCORRECT PASSWORD\n\n";
+		}
+
+		return done;
 }
 
 void admin_mode() {
 
+retry:
+	int option{};
+	std::string entry;
+	bool done{ false };
+
+	bool access = grant_access();
+
+	if (access == true) {
+		//IT MEANS THE ADMIN NOW HAS ACCESS
+	}
+	else {
+
+		std::cout << "1 - RETRY PASSWORD\n2 - GO TO HOME\n";
+		do {
+			std::cout << "OPTION:";
+			std::cin >> entry;
+
+			std::istringstream validator{ entry };
+			if (validator >> option && (option == 1 || option == 2)) {
+				done = true;
+			}
+
+			else {
+				std::cout << "KINDLY ENTER A VALID OPTION\n\n";
+			}
+		} while (!done);
+	}
+
+	if (option == 1) {
+		goto retry;
+	}
+
+	else {
+	
+		display_menu();
+	}
 }
+
 void user_mode() {
 
 }

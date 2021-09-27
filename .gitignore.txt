@@ -1,5 +1,0 @@
-.vs
-.vs/Railway reservation system/v16/Browse.VC.opendb
-.vs/Railway reservation system/v16/.suo
-.vs/Railway reservation system/v16/Browse.VC.db
-
