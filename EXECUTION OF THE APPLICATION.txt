@@ -22,7 +22,7 @@ Station 1 [Yaba Station]
 					e - no of seats in first class & fare per ticket 
 					f - no of seats in first class & fare per ticket
 
-			(Yaba - Ikeja)
+			(Yaba - IKORODU)
 
 				Train Details (In case of the reservation enquiry)
 					a - Tain No
