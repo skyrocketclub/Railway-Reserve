@@ -11,6 +11,7 @@
 #include <string>
 #include <conio.h>
 #include <vector>
+#include <cctype>
 
 
 void choose_mode();
@@ -21,12 +22,14 @@ void user_mode();
 bool grant_access();
 void update_station();
 void user_op();
+void train_op();
 void create_user();
 void list_user();
 void reserve();
 void display_reserves();
 void display_creserves();
 int	 get_serialnum();
+std::string capitalise(std::string);
 
 char quitter{ '1'}; //Universal Variable Used to Quit the Application...
 
@@ -187,7 +190,7 @@ retry:
 		*/
 		system("CLS");
 		std::cout << "WELCOME DEAR ADMINISTRATOR - THE TRANSPORT SYSTEM IS IN YOUR HANDS\n\n";
-		std::cout << "1 - UPDATE TRAIN DETAILS\n2 - USER SECTION\n3 - VIEW RESERVATIONS\n4 - GO TO HOME\n";
+		std::cout << "1 - TRAIN SECTION\n2 - USER SECTION\n3 - VIEW RESERVATIONS\n4 - GO TO HOME\n";
 		
 		std::string entry_admin;
 		int option_admin;
@@ -297,6 +300,55 @@ void user_op() {
 	}
 };
 
+void train_op() {
+	/*
+
+2 - UPDATE_STATIONS
+		1 - STATION-1 (YABA STATION)
+				WHAT ROUTE?
+					YABA - UNILAG
+						-ENTER TRAIN DETAILS
+					YABA - IKORODU
+						-ENTER TRAIN DETAILS
+					YABA - CMS
+						-ENTER TRAIN DETAILS
+		2 - STATION-2 (COSTAIN STATION)
+				WHAT ROUTE?
+					COSTAIN - UNILAG
+						-ENTER TRAIN DETAILS
+					COSTAIN - IKORODU
+						-ENTER TRAIN DETAILS
+					COSTAIN - CMS
+						ENTER TRAIN DETAILS
+*/
+	system("CLS");
+	std::cout << "\t\tTRAIN SECTION\n";
+	std::cout << "1 - VIEW TRAIN DETAILS\n2 - UPDATE TRAIN DETAILS\n";
+	
+	bool done{ false };
+	std::string entry;
+	int option;
+
+	do {
+		std::cout << "OPTION: ";
+		std::cin >> entry;
+		std::istringstream validator{ entry };
+		if (validator >> option && (option ==1 || option == 2)) {
+			done = true;
+		}
+		else {
+			std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+		}
+	} while (!done);
+
+	if (option == 1) {
+		system("CLS");
+	}
+	else {
+
+	}
+}
+
 int get_serialnum() {
 
 	/*const char* path_1 = "FILES/users.txt";
@@ -387,10 +439,12 @@ void create_user() {
 		std::cin.ignore(1, '\n');
 		std::cout << "\n\nFIRST NAME: ";
 		std::getline(std::cin, first_name);
+		first_name = capitalise(first_name);
 		out_file << first_name << "#";
 
 		std::cout << "LAST NAME: ";
 		std::getline(std::cin, last_name);
+		last_name = capitalise(last_name);
 		out_file << last_name << "#";
 
 		std::cout << "AGE: ";
@@ -501,7 +555,42 @@ void create_user() {
 }
 
 void list_user() {
+	std::string line;
 
+	std::ifstream in_file;
+	const char* path = "FILES/users.txt";
+	in_file.open(path);
+																							
+	std::setfill(" ");
+	std::cout << "============================================================================\n";
+	std::cout<<	std::setfill(' ') << "||" << std::setw(4) << std::left << "S/N" << std::setw(20) << std::left << "FIRST NAME" << std::setw(20) << std::left << "LAST NAME" << std::setw(5) << std::left << "AGE" << std::setw(8) << std::left << "SEX" << std::setw(15) << std::left << "CATEGORY" << "||" << std::endl;
+	std::cout << "============================================================================\n";
+
+	while (std::getline(in_file, line)) {
+		
+		std::stringstream s_stream(line);
+		std::string substr;
+		std::vector<std::string> users;
+
+		while (s_stream.good()) {
+			std::getline(s_stream, substr, '#');
+			users.push_back(substr);
+		}
+		/*
+			user.at(0) = Serial Number
+			user.at(1) = First Name
+			user.at(3) = Last Name
+			user.at(4) = Age
+			user.at(5) = Sex
+			user.at(6) = Category
+		*/
+		std::cout << "||";
+		std::cout << std::setw(4) << std::left << users.at(0) << std::setw(20) << std::left << users.at(1) << std::setw(20) << std::left << users.at(2) << std::setw(5) << std::left << users.at(3) << std::setw(8) << std::left << users.at(4) << std::setw(15) << std::left << users.at(5);
+		std::cout << "||"<<std::endl;
+	}
+	std::cout << "============================================================================\n";
+
+	in_file.close();
 }
 void reserve() {}
 void display_reserves() {}
@@ -511,6 +600,14 @@ void user_mode() {
 
 }
 
+std::string capitalise(std::string word) {
+	std::string new_word{};
+	for (auto letter : word) {
+		letter = toupper(letter);
+		new_word+= letter;
+	}
+	return new_word;
+}
 
 void quit() {
 	system("CLS");
