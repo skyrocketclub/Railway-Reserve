@@ -10,6 +10,7 @@ ADMIN MODE
 The things that you work on while creating the database...
 
 Station 1 [Yaba Station]
+Let us say there is one train for each station...
 
 		Trips Available
 

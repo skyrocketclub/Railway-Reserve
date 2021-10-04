@@ -1,3 +1,8 @@
 ﻿  Railway reservation system.cpp
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(514,7): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(407,18): warning C4101: 'c_fare': unreferenced local variable
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(406,7): warning C4101: 'train_no': unreferenced local variable
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(407,10): warning C4101: 'f_fare': unreferenced local variable
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(406,28): warning C4101: 'no_c_seat': unreferenced local variable
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(406,17): warning C4101: 'no_f_seat': unreferenced local variable
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(787,7): warning C4834: discarding return value of function with 'nodiscard' attribute
   Railway reservation system.vcxproj -> C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Debug\Railway reservation system.exe

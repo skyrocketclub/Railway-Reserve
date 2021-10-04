@@ -21,8 +21,13 @@ void admin_mode();
 void user_mode();
 bool grant_access();
 void update_station();
+//void view_train();
+void update_station_1();
+void update_station_2();
 void user_op();
-void train_op();
+//void train_op();
+void add_trains_1(std::string);
+void add_trains_2(std::string);
 void create_user();
 void list_user();
 void reserve();
@@ -68,8 +73,6 @@ int main()
 
 	return 0;
 }
-
-
 
 void display_menu() {
 	if (quitter != '0') {
@@ -167,7 +170,7 @@ bool grant_access() {
 
 		return done;
 }
-
+ 
 void admin_mode() {
 
 retry:
@@ -266,9 +269,6 @@ retry:
 	}
 }
 
-void update_station() {
-};
-
 void user_op() {
 	system("CLS");
 	std::cout << "\t\t\tUSER SECTION\n";
@@ -300,9 +300,46 @@ void user_op() {
 	}
 };
 
-void train_op() {
-	/*
+//void train_op() {
+//	system("CLS");
+//	std::cout << "\t\tTRAIN SECTION\n";
+//	std::cout << "1 - VIEW TRAIN DETAILS\n2 - UPDATE TRAIN DETAILS\n";
+//	
+//	bool done{ false };
+//	std::string entry;
+//	int option;
+//
+//	do {
+//		std::cout << "OPTION: ";
+//		std::cin >> entry;
+//		std::istringstream validator{ entry };
+//		if (validator >> option && (option ==1 || option == 2)) {
+//			done = true;
+//		}
+//		else {
+//			std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+//			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+//		}
+//	} while (!done);
+//
+//	if (option == 1) {
+//		system("CLS");
+//		view_train();
+//	}
+//	else {
+//		system("CLS");
+//		update_station();
+//	}
+//}
 
+void update_station() {
+	/*
+	How you go about it...
+	--- There is a .txt file named after the particular station
+	--- Then the admin chooses the station the he/she wishes to update
+	--- Then in the particular station, the admin chooses the route to be updated
+	--- If the route has been updated prior, a message asks the admin if he/she wishes to edit the information for that route
+	--- 
 2 - UPDATE_STATIONS
 		1 - STATION-1 (YABA STATION)
 				WHAT ROUTE?
@@ -322,32 +359,219 @@ void train_op() {
 						ENTER TRAIN DETAILS
 */
 	system("CLS");
-	std::cout << "\t\tTRAIN SECTION\n";
-	std::cout << "1 - VIEW TRAIN DETAILS\n2 - UPDATE TRAIN DETAILS\n";
+	std::cout << "\t\t\tWELCOME TO THE STATIONS SECTIONS. GUIDE THE WORLD TO MOVEMENT\n";
+	std::cout << "CHOOSE STATION TO UPDATE\n1 - STATION 1\n2 - STATION 2\n";
+
+	std::string entry;
+	bool done{ false };
+	int opt;
+
+	do {
+		std::cout << "OPTION: ";
+		std::cin >> entry;
+
+		std::istringstream validator{ entry };
+		if (validator >> opt && (opt == 1 || opt == 2)) {
+			done = true;
+		}
+		else {
+			std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+		}
+	} while (!done);
+
+	if (opt == 1) {
+		system("cls");
+		update_station_1();
+	}
+	else {
+		system("cls");
+		update_station_2();
+	}
+
+}
+
+void add_trains_1(std::string route) {
+	std::string rte;
+	rte = route;
+	/*
+	THE DETAILS TO BE ENTERED BY THE ADMIN:
+	train number # train name # boarding point # destination point #  
+	*/
+	if (rte == "yaba-unilag") {
+		const char* path = "FILES/STATION_1/yaba-unilag.txt";
+		std::ofstream out_file(path, std::ios::app);
+		
+		std::string t_name, b_point, d_point;
+		int train_no, no_f_seat, no_c_seat;
+		double f_fare, c_fare;
+
+		out_file.close();
+		
+	}
+	else if (rte == "unilag-yaba") {
+
+	}
+	else if (rte == "yaba-ikorodu") {
+
+	}
+	else if (rte == "ikorodu-yaba") {
+
+	}
+
+}
+
+void add_trains_2(std::string route) {
+
+}
+
+void update_station_1() {
+	/*
+	How you go about it...
+	--- There is a .txt file named after the particular station
+	--- Then the admin chooses the station the he/she wishes to update
+	--- Then in the particular station, the admin chooses the route to be updated
+	--- If the route has been updated prior, a message asks the admin if he/she wishes to edit the information for that route
+	---
+2 - UPDATE_STATIONS
+		1 - STATION-1 (YABA STATION)
+				WHAT ROUTE?
+					YABA - UNILAG
+						-ENTER TRAIN DETAILS
+					YABA - IKORODU
+						-ENTER TRAIN DETAILS
+					YABA - CMS
+						-ENTER TRAIN DETAILS
+						*/
+
+	_mkdir("FILES/STATION_1");
+
+	std::cout << "\t\t\tWELCOME TO STATION 1 (YABA STATION)\nCHOOSE A ROUTE TO UPDATE\n";
+	std::cout << "1 - [YABA - UNILAG]\n2 - [UNILAG - YABA]\n3 - [YABA - IKORODU]\n4 - [IKORODU - YABA]\n";
 	
 	bool done{ false };
 	std::string entry;
 	int option;
 
+	//std::ifstream in_file;
+	//in_file.open(path);
+
 	do {
 		std::cout << "OPTION: ";
 		std::cin >> entry;
 		std::istringstream validator{ entry };
-		if (validator >> option && (option ==1 || option == 2)) {
+
+		if (validator >> option && (option > 0 && option < 5)) {
 			done = true;
 		}
 		else {
 			std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
 		}
+
 	} while (!done);
 
-	if (option == 1) {
-		system("CLS");
-	}
-	else {
+	switch (option)
+	{
+		case 1:
+		{
+			//folder called station which is inside the files
+			//then each of the routes have a .txt file
+			//thus you can add trains to each of the routes at will
 
+
+			//If it does not exist, it is created for the first time...
+			const char* path = "FILES/STATION_1/yaba-unilag.txt";
+			std::ofstream out_file(path, std::ios::app);
+			out_file.close();
+			system("CLS");
+
+			std::ifstream in_file;
+			in_file.open(path);
+			
+			std::string line;
+			std::vector <std::string> lines;
+
+			while (std::getline(in_file, line)) {
+				lines.push_back(line);
+			}
+			in_file.close(); //signifies that you are done reading from the file...
+
+			if (lines.size() == 0) {
+				std::cout << "THERE ARE CURRENTLY NO REGISTERED TRAINS\n1 - ADD TRAINS\n0 - RETURN TO HOME MENU\n";
+				
+				bool done_1{ false };
+				std::string entry_1;
+				int opt_1;
+
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry_1;
+					std::istringstream validator_1{ entry_1 };
+
+					if (validator_1 >> opt_1 && (opt_1 == 1 || opt_1 == 0)) {
+						done_1 = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID OPTION\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+				} while (!done_1);
+
+				if (opt_1 == 1) {
+					add_trains_1("yaba-unilag");
+				}
+				else {
+					display_menu();
+				}
+
+			}
+			//What happens if the List of trains for that station is not empty---
+			else {
+
+				/*
+				Then you can choose to
+				LIST OF TRAIN:
+				----The list of trains and their respective details are shown then the options below come up...
+					-- add a new train
+					-- remove a train or edit a train
+
+				*/
+
+			}
+			
+			
+			
+		}
+		break;
+		case 2:
+		{
+
+		}
+		break;
+		case 3:
+		{
+
+		}
+		break;
+		case 4:
+		{
+
+		}
+		break;
+
+		default:
+			break;
 	}
 }
+
+void update_station_2() {
+
+}
+
+//void view_train() {
+//
+//}
 
 int get_serialnum() {
 
@@ -370,7 +594,6 @@ int get_serialnum() {
 		lines.push_back(line);
 	}
 	in_file.close();
-
 	size = lines.size();
 	current = size + 1;
 	
