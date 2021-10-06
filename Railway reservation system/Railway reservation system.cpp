@@ -38,6 +38,7 @@ std::string capitalise(std::string);
 
 char quitter{ '1'}; //Universal Variable Used to Quit the Application...
 
+using namespace std;
 /*
 1 - MAKE A FOLDER CALLED FILES WHERE ALL THE .TXT FILES WILL BE KEPT
 2 - UPDATE_STATIONS
@@ -360,7 +361,7 @@ void update_station() {
 */
 	system("CLS");
 	std::cout << "\t\t\tWELCOME TO THE STATIONS SECTIONS. GUIDE THE WORLD TO MOVEMENT\n";
-	std::cout << "CHOOSE STATION TO UPDATE\n1 - STATION 1\n2 - STATION 2\n";
+	std::cout << "CHOOSE STATION TO UPDATE\n1 - STATION 1 (YABA)\n2 - STATION 2 (COSTAIN)\n";
 
 	std::string entry;
 	bool done{ false };
@@ -394,31 +395,356 @@ void update_station() {
 void add_trains_1(std::string route) {
 	std::string rte;
 	rte = route;
-	/*
-	THE DETAILS TO BE ENTERED BY THE ADMIN:
-	train number # train name # boarding point # destination point #  
-	*/
+	
 	if (rte == "yaba-unilag") {
-		const char* path = "FILES/STATION_1/yaba-unilag.txt";
-		std::ofstream out_file(path, std::ios::app);
+		std::cout << "\t\t\tYABA - UNILAG (ET-RETURN ROUTE)\n\n";
+		bool done{ false };
+		std::string entry;
+		int count;
+
+		std::cout << "HOW MANY TRAINS WOULD YOU LIKE TO ADD\n";
+		do {
+			std::cout << "OPTION: ";
+			std::cin >> entry;
+			std::istringstream validator{ entry };
+
+			if (validator >> count && count > 0) {
+				done = true;
+			}
+			else {
+				std::cout << "KINDLT ENTER A VALID INPUT\n\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done);
+
+		for (int i{ 0 }; i < count; i++) {
+			const char* path = "FILES/STATION_1/yaba-unilag.txt";
+			std::ofstream out_file(path, std::ios::app);
+
+			std::string t_name, b_point, d_point, train_no;
+			int no_f_seat, no_c_seat;
+			double f_fare, c_fare;
+
+
+			/*	bool done_r{ false };
+				std::string entry_r;
+				int opt_r;*/
+
 		
-		std::string t_name, b_point, d_point;
-		int train_no, no_f_seat, no_c_seat;
+					/*
+					THE DETAILS TO BE ENTERED BY THE ADMIN:
+					<--- train number # train name # boarding point # destination point #  no of first class seats
+					# first class seat fare # no of commercial seat #commercial class seat fare # DEPARTURE TIME--->
+					*/
+
+					// There is an assumption that all of the trains do the return trip...
+					//The reuturn_line string is supposed to take care of that...
+			std::string return_line;
+			std::cin.ignore(1, '\n');
+
+			std::cout << "TRAIN NUMBER (e.g YAB001): ";
+			std::getline (std::cin, train_no);
+			out_file << train_no << "#";
+			return_line += train_no;
+			return_line += "#";
+
+			std::cout << "TRAIN NAME: ";
+			std::getline(std::cin, t_name);
+			out_file << t_name << "#";
+			return_line += train_no;
+			return_line += "#";
+
+			std::cout << "BOARDING POINT: ";
+			std::getline(std::cin, b_point);
+			out_file << b_point << "#";
+
+			std::cout << "DESTINATION: ";
+			std::getline(std::cin, d_point);
+			out_file << d_point << "#";
+
+			//The Boarding point is passed as the destination point and the destination as the boarding point in the reverse mode...
+			return_line += d_point;
+			return_line += "#";
+			return_line += b_point;
+			return_line += "#";
+
+			bool done_f{ false };
+			std::string entry_f;
+
+
+			std::cout << "NUMBER OF FIRST CLASS SEATS: ";
+			do {
+				std::cin >> entry_f;
+				std::istringstream validator_f{ entry_f };
+				if (validator_f >> no_f_seat && no_f_seat > 0) {
+					done_f = true;
+				}
+				else {
+					std::cout << "KINDLY ENTER A NUMBER\n\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+				}
+			} while (!done_f);
+
+			out_file << no_f_seat << "#";
+			std::string no_f_seats = std::to_string(no_f_seat);
+			return_line += no_f_seats;
+			return_line += "#";
+
+
+
+			bool done_ff{ false };
+			std::string entry_ff;
+
+			std::cout << "PRICE PER SEAT FOR FIRST CLASS: N";
+			do {
+				std::cin >> entry_ff;
+				std::istringstream validator_ff{ entry_ff };
+
+				if (validator_ff >> f_fare && f_fare > 0) {
+					done_ff = true;
+				}
+				else {
+					std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+				}
+			} while (!done_ff);
+			out_file << f_fare << "#";
+			std::string f_fares = std::to_string(f_fare);
+			return_line += f_fares;
+			return_line += "#";
+
+
+			bool done_c{ false };
+			std::string entry_c;
+
+			std::cout << "NUMBER OF COMMERCIAL CLASS SEATS: ";
+			do {
+				std::cin >> entry_c;
+				std::istringstream validator_c{ entry_c };
+				if (validator_c >> no_c_seat && no_c_seat > 0) {
+					done_c = true;
+				}
+				else {
+					std::cout << "KINDLY ENTER A NUMBER\n\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+				}
+			} while (!done_c);
+
+			out_file << no_c_seat << "#";
+			std::string no_c_seats = std::to_string(no_c_seat);
+			return_line += no_c_seats;
+			return_line += "#";
+
+
+			bool done_cf{ false };
+			std::string entry_cf;
+
+			std::cout << "PRICE PER SEAT FOR FIRST CLASS: N";
+			do {
+				std::cin >> entry_cf;
+				std::istringstream validator_cf{ entry_cf };
+
+				if (validator_cf >> c_fare && c_fare > 0) {
+					done_cf = true;
+				}
+				else {
+					std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+				}
+			} while (!done_cf);
+			out_file << c_fare << std::endl;
+			std::string c_fares = std::to_string(c_fare);
+			return_line += c_fares;
+			out_file.close();
+
+			std::cout << std::endl;
+			std::cout << t_name << " SUCCESFULLY ADDED!\n\n";
+
+			//In order to pass in the info of the train for the return trip...
+			const char* path_r = "FILES/STATION_1/unilag-yaba.txt";
+			out_file.open(path_r, std::ios::app);
+
+			if (!out_file) {
+				std::cerr << "ERROR OPENING FILE\n";
+			}
+			else {
+				out_file << return_line << std::endl;
+			}
+			out_file.close();
+		}
+	}
+	
+	else if (rte == "yaba-ikorodu") {
+	std::cout << "\t\t\tYABA - IKORODU (ET-RETURN ROUTE)\n\n";
+	bool done{ false };
+	std::string entry;
+	int count;
+
+	std::cout << "HOW MANY TRAINS WOULD YOU LIKE TO ADD\n";
+	do {
+		std::cout << "OPTION: ";
+		std::cin >> entry;
+		std::istringstream validator{ entry };
+
+		if (validator >> count && count > 0) {
+			done = true;
+		}
+		else {
+			std::cout << "KINDLT ENTER A VALID INPUT\n\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+		}
+	} while (!done);
+
+	for (int i{ 0 }; i < count; i++) {
+		const char* path = "FILES/STATION_1/yaba-ikorodu.txt";
+		std::ofstream out_file(path, std::ios::app);
+
+		std::string t_name, b_point, d_point, train_no;
+		int no_f_seat, no_c_seat;
 		double f_fare, c_fare;
 
+			/*
+			THE DETAILS TO BE ENTERED BY THE ADMIN:
+			<--- train number # train name # boarding point # destination point #  no of first class seats
+			# first class seat fare # no of commercial seat #commercial class seat fare # DEPARTURE TIME--->
+			*/
+
+			// There is an assumption that all of the trains do the return trip...
+			//The reuturn_line string is supposed to take care of that...
+		std::string return_line;
+		std::cin.ignore(1, '\n');
+
+		std::cout << "TRAIN NUMBER (e.g YIK001): ";
+		std::getline(std::cin, train_no);
+		out_file << train_no << "#";
+		return_line += train_no;
+		return_line += "#";
+
+		std::cout << "TRAIN NAME: ";
+		std::getline(std::cin, t_name);
+		out_file << t_name << "#";
+		return_line += train_no;
+		return_line += "#";
+
+		std::cout << "BOARDING POINT: ";
+		std::getline(std::cin, b_point);
+		out_file << b_point << "#";
+
+		std::cout << "DESTINATION: ";
+		std::getline(std::cin, d_point);
+		out_file << d_point << "#";
+
+		//The Boarding point is passed as the destination point and the destination as the boarding point in the reverse mode...
+		return_line += d_point;
+		return_line += "#";
+		return_line += b_point;
+		return_line += "#";
+
+		bool done_f{ false };
+		std::string entry_f;
+
+
+		std::cout << "NUMBER OF FIRST CLASS SEATS: ";
+		do {
+			std::cin >> entry_f;
+			std::istringstream validator_f{ entry_f };
+			if (validator_f >> no_f_seat && no_f_seat > 0) {
+				done_f = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A NUMBER\n\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_f);
+
+		out_file << no_f_seat << "#";
+		std::string no_f_seats = std::to_string(no_f_seat);
+		return_line += no_f_seats;
+		return_line += "#";
+
+
+
+		bool done_ff{ false };
+		std::string entry_ff;
+
+		std::cout << "PRICE PER SEAT FOR FIRST CLASS: N";
+		do {
+			std::cin >> entry_ff;
+			std::istringstream validator_ff{ entry_ff };
+
+			if (validator_ff >> f_fare && f_fare > 0) {
+				done_ff = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_ff);
+		out_file << f_fare << "#";
+		std::string f_fares = std::to_string(f_fare);
+		return_line += f_fares;
+		return_line += "#";
+
+
+		bool done_c{ false };
+		std::string entry_c;
+
+		std::cout << "NUMBER OF COMMERCIAL CLASS SEATS: ";
+		do {
+			std::cin >> entry_c;
+			std::istringstream validator_c{ entry_c };
+			if (validator_c >> no_c_seat && no_c_seat > 0) {
+				done_c = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A NUMBER\n\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_c);
+
+		out_file << no_c_seat << "#";
+		std::string no_c_seats = std::to_string(no_c_seat);
+		return_line += no_c_seats;
+		return_line += "#";
+
+
+		bool done_cf{ false };
+		std::string entry_cf;
+
+		std::cout << "PRICE PER SEAT FOR FIRST CLASS: N";
+		do {
+			std::cin >> entry_cf;
+			std::istringstream validator_cf{ entry_cf };
+
+			if (validator_cf >> c_fare && c_fare > 0) {
+				done_cf = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_cf);
+		out_file << c_fare << std::endl;
+		std::string c_fares = std::to_string(c_fare);
+		return_line += c_fares;
 		out_file.close();
-		
-	}
-	else if (rte == "unilag-yaba") {
 
-	}
-	else if (rte == "yaba-ikorodu") {
+		std::cout << std::endl;
+		std::cout << t_name << " SUCCESFULLY ADDED!\n\n";
 
-	}
-	else if (rte == "ikorodu-yaba") {
+		//In order to pass in the info of the train for the return trip...
+		const char* path_r = "FILES/STATION_1/ikorodu-yaba.txt";
+		out_file.open(path_r, std::ios::app);
 
+		if (!out_file) {
+			std::cerr << "ERROR OPENING FILE\n";
+		}
+		else {
+			out_file << return_line << std::endl;
+		}
+		out_file.close();
 	}
-
+	}
 }
 
 void add_trains_2(std::string route) {
@@ -432,29 +758,17 @@ void update_station_1() {
 	--- Then the admin chooses the station the he/she wishes to update
 	--- Then in the particular station, the admin chooses the route to be updated
 	--- If the route has been updated prior, a message asks the admin if he/she wishes to edit the information for that route
-	---
-2 - UPDATE_STATIONS
-		1 - STATION-1 (YABA STATION)
-				WHAT ROUTE?
-					YABA - UNILAG
-						-ENTER TRAIN DETAILS
-					YABA - IKORODU
-						-ENTER TRAIN DETAILS
-					YABA - CMS
-						-ENTER TRAIN DETAILS
-						*/
+	*/
 
 	_mkdir("FILES/STATION_1");
 
 	std::cout << "\t\t\tWELCOME TO STATION 1 (YABA STATION)\nCHOOSE A ROUTE TO UPDATE\n";
-	std::cout << "1 - [YABA - UNILAG]\n2 - [UNILAG - YABA]\n3 - [YABA - IKORODU]\n4 - [IKORODU - YABA]\n";
+	std::cout << "1 - [YABA - UNILAG]\n2 - [YABA - IKORODU]\n";
 	
 	bool done{ false };
 	std::string entry;
 	int option;
 
-	//std::ifstream in_file;
-	//in_file.open(path);
 
 	do {
 		std::cout << "OPTION: ";
@@ -537,6 +851,8 @@ void update_station_1() {
 					-- remove a train or edit a train
 
 				*/
+				system("cls");
+				//list(yaba-unilag) ---
 
 			}
 			
@@ -546,20 +862,72 @@ void update_station_1() {
 		break;
 		case 2:
 		{
+			//folder called station which is inside the files
+			//then each of the routes have a .txt file
+			//thus you can add trains to each of the routes at will
 
+
+			//If it does not exist, it is created for the first time...
+			const char* path = "FILES/STATION_1/yaba-ikorodu.txt";
+			std::ofstream out_file(path, std::ios::app);
+			out_file.close();
+			system("CLS");
+
+			std::ifstream in_file;
+			in_file.open(path);
+
+			std::string line;
+			std::vector <std::string> lines;
+
+			while (std::getline(in_file, line)) {
+				lines.push_back(line);
+			}
+			in_file.close(); //signifies that you are done reading from the file...
+
+			if (lines.size() == 0) {
+				std::cout << "THERE ARE CURRENTLY NO REGISTERED TRAINS\n1 - ADD TRAINS\n0 - RETURN TO HOME MENU\n";
+
+				bool done_1{ false };
+				std::string entry_1;
+				int opt_1;
+
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry_1;
+					std::istringstream validator_1{ entry_1 };
+
+					if (validator_1 >> opt_1 && (opt_1 == 1 || opt_1 == 0)) {
+						done_1 = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID OPTION\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+				} while (!done_1);
+
+				if (opt_1 == 1) {
+					add_trains_1("yaba-ikorodu");
+				}
+				else {
+					display_menu();
+				}
+
+			}
+			//What happens if the List of trains for that station is not empty---
+			else {
+
+				/*
+				Then you can choose to
+				LIST OF TRAIN:
+				----The list of trains and their respective details are shown then the options below come up...
+					-- add a new train
+					-- remove a train or edit a train
+
+				*/
+
+			}
 		}
 		break;
-		case 3:
-		{
-
-		}
-		break;
-		case 4:
-		{
-
-		}
-		break;
-
 		default:
 			break;
 	}
@@ -568,10 +936,6 @@ void update_station_1() {
 void update_station_2() {
 
 }
-
-//void view_train() {
-//
-//}
 
 int get_serialnum() {
 
