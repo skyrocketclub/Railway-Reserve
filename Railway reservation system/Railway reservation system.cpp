@@ -21,7 +21,7 @@ void admin_mode();
 void user_mode();
 bool grant_access();
 void update_station();
-//void view_train();
+void view_trains(std::string);
 void update_station_1();
 void update_station_2();
 void user_op();
@@ -361,7 +361,7 @@ void update_station() {
 */
 	system("CLS");
 	std::cout << "\t\t\tWELCOME TO THE STATIONS SECTIONS. GUIDE THE WORLD TO MOVEMENT\n";
-	std::cout << "CHOOSE STATION TO UPDATE\n1 - STATION 1 (YABA)\n2 - STATION 2 (COSTAIN)\n";
+	std::cout << "CHOOSE STATION\n1 - STATION 1 (YABA)\n2 - STATION 2 (COSTAIN)\n";
 
 	std::string entry;
 	bool done{ false };
@@ -852,7 +852,16 @@ void update_station_1() {
 
 				*/
 				system("cls");
-				//list(yaba-unilag) ---
+				view_trains("yaba-unilag");
+				
+				
+
+				/*
+				WHAT OPERATION WOULD YOU LIKE TO CARRY OUT?
+					- REMOVE A TRAIN --- (REMOVE TRAINS.)
+					- EDIT A TRAIN	 --- (EDIT DETAILS FOR A TRAIN)
+					- ADD A TRAIN
+				*/
 
 			}
 			
@@ -935,6 +944,62 @@ void update_station_1() {
 
 void update_station_2() {
 
+}
+
+void view_trains(std::string route) {
+
+	if (route == "yaba-unilag") {
+		std::ifstream in_file;
+		const char* path_1 = "FILES/STATION_1/yaba-unilag.txt";
+		in_file.open(path_1);
+		std::string line;
+		
+
+		//TRAIN NO # TRAIN NAME # BOARDING POINT # DESTINATION POINT # F_C_SEATS # F_C_FARE # C_C_SEATS # C_C_FARE
+		/*
+			std::stringstream s_stream(line);
+		std::string substr;
+		std::vector<std::string> users;
+
+		while (s_stream.good()) {
+			std::getline(s_stream, substr, '#');
+			users.push_back(substr);
+		}
+		
+			trains.at(0) = train number
+			trains.at(1) = train Name
+			trains.at(3) = boarding point
+			trains.at(4) = destination point
+			trains.at(5) = first class seats
+			trains.at(6) = first class fare
+			trains.at(7) = commercial seats 
+			trains.at(8) = commercial fare
+		*/
+		std::cout << "=====================================================================================================================================================================" << std::endl;
+		std::cout << std::setfill(' ') << std::setw(10) << std::left << "||TRAIN NO"
+			<< std::setw(15) << std::left << "| TRAIN NAME"
+			<< std::setw(35) << std::left << "| BOARDING POINT" << std::setw(35)<<std::left<<"| DESTINATION POINT"
+			<< std::setw(15)<<std::left<<"| 1ST CLASS STS"<<std::setw(15)<<std::left<<"| 1ST CLASS FARE"
+			<< std::setw(20)<<std::left<<"| COMMERCIAL SEATS"<<std::setw(20)<<std::left<<"| COMMERCIAL FARE||"<<std::endl;
+		std::cout << "====================================================================================================================================================================="<< std::endl;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream(line);
+			std::string substr;
+			std::vector<std::string> trains;
+
+				while (s_stream.good()) {
+					std::getline(s_stream, substr, '#');
+					trains.push_back(substr);
+				}
+
+		}
+
+		in_file.close();
+	}
+	else if (route == "yaba-ikorodu") {
+
+	}
 }
 
 int get_serialnum() {
