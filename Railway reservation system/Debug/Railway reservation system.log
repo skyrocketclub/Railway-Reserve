@@ -1,3 +1,3 @@
 ﻿  Railway reservation system.cpp
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1216,7): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1346,7): warning C4834: discarding return value of function with 'nodiscard' attribute
   Railway reservation system.vcxproj -> C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Debug\Railway reservation system.exe

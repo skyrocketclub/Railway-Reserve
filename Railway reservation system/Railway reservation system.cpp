@@ -28,6 +28,9 @@ void user_op();
 //void train_op();
 void add_trains_1(std::string);
 void add_trains_2(std::string);
+void remove_train_1(std::string);
+bool reg_train_1(std::string,std::string);
+bool reg_train_2(std::string);
 void create_user();
 void list_user();
 void reserve();
@@ -39,26 +42,7 @@ std::string capitalise(std::string);
 char quitter{ '1'}; //Universal Variable Used to Quit the Application...
 
 using namespace std;
-/*
-1 - MAKE A FOLDER CALLED FILES WHERE ALL THE .TXT FILES WILL BE KEPT
-2 - UPDATE_STATIONS
-		1 - STATION-1 (YABA STATION)
-				WHAT ROUTE?
-					YABA - UNILAG
-						-ENTER TRAIN DETAILS
-					YABA - IKORODU
-						-ENTER TRAIN DETAILS
-					YABA - CMS
-						-ENTER TRAIN DETAILS
-		2 - STATION-2 (COSTAIN STATION)
-				WHAT ROUTE?
-					COSTAIN - UNILAG
-						-ENTER TRAIN DETAILS
-					COSTAIN - IKORODU
-						-ENTER TRAIN DETAILS
-					COSTAIN - CMS
-						ENTER TRAIN DETAILS
-*/
+
 
 int main()
 {
@@ -301,37 +285,6 @@ void user_op() {
 	}
 };
 
-//void train_op() {
-//	system("CLS");
-//	std::cout << "\t\tTRAIN SECTION\n";
-//	std::cout << "1 - VIEW TRAIN DETAILS\n2 - UPDATE TRAIN DETAILS\n";
-//	
-//	bool done{ false };
-//	std::string entry;
-//	int option;
-//
-//	do {
-//		std::cout << "OPTION: ";
-//		std::cin >> entry;
-//		std::istringstream validator{ entry };
-//		if (validator >> option && (option ==1 || option == 2)) {
-//			done = true;
-//		}
-//		else {
-//			std::cout << "KINDLY ENTER A VALID INPUT\n\n";
-//			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
-//		}
-//	} while (!done);
-//
-//	if (option == 1) {
-//		system("CLS");
-//		view_train();
-//	}
-//	else {
-//		system("CLS");
-//		update_station();
-//	}
-//}
 
 void update_station() {
 	/*
@@ -751,6 +704,193 @@ void add_trains_2(std::string route) {
 
 }
 
+bool reg_train_1(std::string num,std::string route) {
+
+	if (route == "yaba-unilag") {
+		bool present{ false };
+		std::string line, t_name;
+
+		/*
+				trains.at(0) = train number
+				trains.at(1) = train Name
+				trains.at(2) = boarding point
+				trains.at(3) = destination point
+				trains.at(4) = first class seats
+				trains.at(5) = first class fare
+				trains.at(6) = commercial seats
+				trains.at(7) = commercial fare
+		*/
+
+		std::ifstream in_file;
+		const char* path = "FILES/STATION_1/yaba-unilag.txt";
+		in_file.open(path);
+
+		if (!in_file) {
+			std::cerr << "ERROR OPENING FILE\n\n";
+		}
+
+		while (std::getline(in_file, line)) {
+
+			std::stringstream s_stream{ line };
+			std::string substr;
+			std::vector<std::string> trains;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+			if (num == trains.at(0)) {
+				present = true;
+			}
+		}
+
+		in_file.close();
+		return present;
+	}
+	else if (route == "yaba - ikorodu") {
+		bool present{ false };
+		std::string line, t_name;
+
+		/*
+				trains.at(0) = train number
+				trains.at(1) = train Name
+				trains.at(2) = boarding point
+				trains.at(3) = destination point
+				trains.at(4) = first class seats
+				trains.at(5) = first class fare
+				trains.at(6) = commercial seats
+				trains.at(7) = commercial fare
+		*/
+
+		std::ifstream in_file;
+		const char* path = "FILES/STATION_1/yaba-ikorodu.txt";
+		in_file.open(path);
+
+		if (!in_file) {
+			std::cerr << "ERROR OPENING FILE\n\n";
+		}
+
+		while (std::getline(in_file, line)) {
+
+			std::stringstream s_stream{ line };
+			std::string substr;
+			std::vector<std::string> trains;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+			if (num == trains.at(0)) {
+				present = true;
+			}
+		}
+
+		in_file.close();
+		return present;
+	}
+	
+}
+
+void remove_train_1(std::string route) {
+
+	if (route == "yaba-unilag") {
+		retry: std::string number;
+		bool present{ false };
+
+		std::cout << "\nENTER THE TRAIN NUMBER OF THE TRAIN TO BE REMOVED\nTRAIN NUMBER: ";
+		std::cin >> number;
+		present = reg_train_1(number,"yaba-unilag");
+		if (present == true) {
+
+			const char* path = "FILES/STATION_1/yaba-unilag.txt";
+			const char* path_2 = "FILES/STATION_1/temp.txt";
+
+			std::ifstream in_file;
+			in_file.open(path);
+			std::ofstream out_file(path_2, std::ios::app);
+
+			std::string line;
+
+				while (std::getline(in_file, line)) {
+
+					std::stringstream s_stream{ line };
+					std::string substr;
+					std::vector<std::string> trains;
+
+					while (s_stream.good()) {
+						std::getline(s_stream, substr, '#');
+						trains.push_back(substr);
+					}
+					if (number == trains.at(0)) {
+					
+					}
+					else {
+						out_file << line << std::endl;
+					}
+				}
+			std::cout <<"Train "<<number << " has been successfully deleted!" << std::endl<<std::endl;
+			in_file.close();
+			out_file.close();
+			std::remove(path);
+			std::rename(path_2, path);
+
+		}
+		else {
+			std::cout << number << " IS NOT A REGISTERED TRAIN IN " << route << " ROUTE\n";
+			goto retry;
+		}
+		
+	}
+	
+	else if (route == "yaba-ikorodu") {
+	retry: std::string number;
+		bool present{ false };
+
+		std::cout << "\nENTER THE TRAIN NUMBER OF THE TRAIN TO BE REMOVED\nTRAIN NUMBER: ";
+		std::cin >> number;
+		present = reg_train_1(number,"yaba-ikorodu");
+		if (present == true) {
+
+			const char* path = "FILES/STATION_1/yaba-ikorodu.txt";
+			const char* path_2 = "FILES/STATION_1/temp.txt";
+
+			std::ifstream in_file;
+			in_file.open(path);
+			std::ofstream out_file(path_2, std::ios::app);
+
+			std::string line;
+
+			while (std::getline(in_file, line)) {
+
+				std::stringstream s_stream{ line };
+				std::string substr;
+				std::vector<std::string> trains;
+
+				while (s_stream.good()) {
+					std::getline(s_stream, substr, '#');
+					trains.push_back(substr);
+				}
+				if (number == trains.at(0)) {
+
+				}
+				else {
+					out_file << line << std::endl;
+				}
+			}
+			std::cout << "Train " << number << " has been successfully deleted!" << std::endl << std::endl;
+			in_file.close();
+			out_file.close();
+			std::remove(path);
+			std::rename(path_2, path);
+
+		}
+		else {
+			std::cout << number << " IS NOT A REGISTERED TRAIN IN " << route << " ROUTE\n";
+			goto retry;
+		}
+	}
+}
+
 void update_station_1() {
 	/*
 	How you go about it...
@@ -848,13 +988,40 @@ void update_station_1() {
 				LIST OF TRAIN:
 				----The list of trains and their respective details are shown then the options below come up...
 					-- add a new train
-					-- remove a train or edit a train
+					-- remove a train 
 
 				*/
 				system("cls");
 				view_trains("yaba-unilag");
+
+				bool done_4{ false };
+				std::string entry_4;
+				int opt_4;
+
+				std::cout << "1 - ADD A NEW TRAIN\n2 - REMOVE A TRAIN\n3 - GO TO HOME\n";
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry_4;
+
+					std::istringstream validator_4{ entry_4 };
+					if (validator_4 >> opt_4 &&(opt_4 ==1 || opt_4 ==2||opt_4 ==3)) {
+						done_4 = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID OPTION\n\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+				} while (!done_4);
 				
-				
+				if (opt_4 == 1) {
+					add_trains_1("yaba-unilag");
+				}
+				else if(opt_4 ==2){
+					remove_train_1("yaba-unilag");
+				}
+				else {
+					display_menu();
+				}
 
 				/*
 				WHAT OPERATION WOULD YOU LIKE TO CARRY OUT?
@@ -924,15 +1091,34 @@ void update_station_1() {
 			}
 			//What happens if the List of trains for that station is not empty---
 			else {
+				system("cls");
+				view_trains("yaba-ikorodu");
 
-				/*
-				Then you can choose to
-				LIST OF TRAIN:
-				----The list of trains and their respective details are shown then the options below come up...
-					-- add a new train
-					-- remove a train or edit a train
+				bool done_4{ false };
+				std::string entry_4;
+				int opt_4;
 
-				*/
+				std::cout << "1 - ADD A NEW TRAIN\n2 - REMOVE A TRAIN\n";
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry_4;
+
+					std::istringstream validator_4{ entry_4 };
+					if (validator_4 >> opt_4 && (opt_4 == 1 || opt_4 == 2)) {
+						done_4 = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID OPTION\n\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+				} while (!done_4);
+
+				if (opt_4 == 1) {
+					add_trains_1("yaba-ikorodu");
+				}
+				else {
+					remove_train_1("yaba-ikorodu");
+				}
 
 			}
 		}
@@ -957,26 +1143,17 @@ void view_trains(std::string route) {
 
 		//TRAIN NO # TRAIN NAME # BOARDING POINT # DESTINATION POINT # F_C_SEATS # F_C_FARE # C_C_SEATS # C_C_FARE
 		/*
-			std::stringstream s_stream(line);
-		std::string substr;
-		std::vector<std::string> users;
-
-		while (s_stream.good()) {
-			std::getline(s_stream, substr, '#');
-			users.push_back(substr);
-		}
-		
 			trains.at(0) = train number
 			trains.at(1) = train Name
-			trains.at(3) = boarding point
-			trains.at(4) = destination point
-			trains.at(5) = first class seats
-			trains.at(6) = first class fare
-			trains.at(7) = commercial seats 
-			trains.at(8) = commercial fare
+			trains.at(2) = boarding point
+			trains.at(3) = destination point
+			trains.at(4) = first class seats
+			trains.at(5) = first class fare
+			trains.at(6) = commercial seats 
+			trains.at(7) = commercial fare
 		*/
 		std::cout << "=====================================================================================================================================================================" << std::endl;
-		std::cout << std::setfill(' ') << std::setw(10) << std::left << "||TRAIN NO"
+		std::cout << std::setfill(' ') << std::setw(10) << std::left << "|TRAIN NO"
 			<< std::setw(15) << std::left << "| TRAIN NAME"
 			<< std::setw(35) << std::left << "| BOARDING POINT" << std::setw(35)<<std::left<<"| DESTINATION POINT"
 			<< std::setw(15)<<std::left<<"| 1ST CLASS STS"<<std::setw(15)<<std::left<<"| 1ST CLASS FARE"
@@ -992,13 +1169,58 @@ void view_trains(std::string route) {
 					std::getline(s_stream, substr, '#');
 					trains.push_back(substr);
 				}
-
+				std::cout << std::setfill(' ') << std::setw(10) << std::left << trains.at(0)
+					<< std::setw(15) << std::left << trains.at(1)
+					<< std::setw(38) << std::left << trains.at(2) << std::setw(38) << std::left << trains.at(3)
+					<< std::setw(18) << std::left << trains.at(4) << std::setw(15) << std::left << trains.at(5)
+					<< std::setw(20) << std::left << trains.at(6) << std::setw(20) << std::left << trains.at(7) << std::endl;
 		}
-
+		std::cout << std::endl<<std::endl;
 		in_file.close();
 	}
 	else if (route == "yaba-ikorodu") {
+		std::ifstream in_file;
+		const char* path_1 = "FILES/STATION_1/yaba-ikorodu.txt";
+		in_file.open(path_1);
+		std::string line;
 
+
+		//TRAIN NO # TRAIN NAME # BOARDING POINT # DESTINATION POINT # F_C_SEATS # F_C_FARE # C_C_SEATS # C_C_FARE
+		/*
+			trains.at(0) = train number
+			trains.at(1) = train Name
+			trains.at(2) = boarding point
+			trains.at(3) = destination point
+			trains.at(4) = first class seats
+			trains.at(5) = first class fare
+			trains.at(6) = commercial seats
+			trains.at(7) = commercial fare
+		*/
+		std::cout << "=====================================================================================================================================================================" << std::endl;
+		std::cout << std::setfill(' ') << std::setw(10) << std::left << "|TRAIN NO"
+			<< std::setw(15) << std::left << "| TRAIN NAME"
+			<< std::setw(35) << std::left << "| BOARDING POINT" << std::setw(35) << std::left << "| DESTINATION POINT"
+			<< std::setw(15) << std::left << "| 1ST CLASS STS" << std::setw(15) << std::left << "| 1ST CLASS FARE"
+			<< std::setw(20) << std::left << "| COMMERCIAL SEATS" << std::setw(20) << std::left << "| COMMERCIAL FARE||" << std::endl;
+		std::cout << "=====================================================================================================================================================================" << std::endl;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream(line);
+			std::string substr;
+			std::vector<std::string> trains;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+			std::cout << std::setfill(' ') << std::setw(10) << std::left << trains.at(0)
+				<< std::setw(15) << std::left << trains.at(1)
+				<< std::setw(38) << std::left << trains.at(2) << std::setw(38) << std::left << trains.at(3)
+				<< std::setw(18) << std::left << trains.at(4) << std::setw(15) << std::left << trains.at(5)
+				<< std::setw(20) << std::left << trains.at(6) << std::setw(20) << std::left << trains.at(7) << std::endl;
+		}
+		std::cout << std::endl << std::endl;
+		in_file.close();
 	}
 }
 
@@ -1244,6 +1466,7 @@ void list_user() {
 
 	in_file.close();
 }
+
 void reserve() {}
 void display_reserves() {}
 void display_creserves() {}
