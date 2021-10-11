@@ -23,20 +23,25 @@ bool grant_access();
 void update_station();
 void view_trains(std::string);
 void update_station_1();
-void update_station_2();
 void user_op();
-//void train_op();
 void add_trains_1(std::string);
-void add_trains_2(std::string);
 void remove_train_1(std::string);
 bool reg_train_1(std::string,std::string);
-bool reg_train_2(std::string);
 void create_user();
 void list_user();
+
+//FOR THE ADMIN
 void reserve();
 void display_reserves();
 void display_creserves();
+
+//FOR THE USER 
+void reservations(std::string,std::string);
+void make_reservation(std::string,std::string);
+void cancel_reservation(std::string,std::string);
+
 int	 get_serialnum();
+bool check_user(std::string,std::string);
 std::string capitalise(std::string);
 
 char quitter{ '1'}; //Universal Variable Used to Quit the Application...
@@ -285,7 +290,6 @@ void user_op() {
 	}
 };
 
-
 void update_station() {
 	/*
 	How you go about it...
@@ -303,18 +307,10 @@ void update_station() {
 						-ENTER TRAIN DETAILS
 					YABA - CMS
 						-ENTER TRAIN DETAILS
-		2 - STATION-2 (COSTAIN STATION)
-				WHAT ROUTE?
-					COSTAIN - UNILAG
-						-ENTER TRAIN DETAILS
-					COSTAIN - IKORODU
-						-ENTER TRAIN DETAILS
-					COSTAIN - CMS
-						ENTER TRAIN DETAILS
 */
 	system("CLS");
 	std::cout << "\t\t\tWELCOME TO THE STATIONS SECTIONS. GUIDE THE WORLD TO MOVEMENT\n";
-	std::cout << "CHOOSE STATION\n1 - STATION 1 (YABA)\n2 - STATION 2 (COSTAIN)\n";
+	std::cout << "CHOOSE STATION\n1 - STATION 1 (YABA STATION)\n";
 
 	std::string entry;
 	bool done{ false };
@@ -325,7 +321,7 @@ void update_station() {
 		std::cin >> entry;
 
 		std::istringstream validator{ entry };
-		if (validator >> opt && (opt == 1 || opt == 2)) {
+		if (validator >> opt && (opt == 1)) {
 			done = true;
 		}
 		else {
@@ -338,11 +334,6 @@ void update_station() {
 		system("cls");
 		update_station_1();
 	}
-	else {
-		system("cls");
-		update_station_2();
-	}
-
 }
 
 void add_trains_1(std::string route) {
@@ -700,10 +691,6 @@ void add_trains_1(std::string route) {
 	}
 }
 
-void add_trains_2(std::string route) {
-
-}
-
 bool reg_train_1(std::string num,std::string route) {
 
 	if (route == "yaba-unilag") {
@@ -747,7 +734,7 @@ bool reg_train_1(std::string num,std::string route) {
 		in_file.close();
 		return present;
 	}
-	else if (route == "yaba - ikorodu") {
+	else if (route == "yaba-ikorodu") {
 		bool present{ false };
 		std::string line, t_name;
 
@@ -843,7 +830,7 @@ void remove_train_1(std::string route) {
 	}
 	
 	else if (route == "yaba-ikorodu") {
-	retry: std::string number;
+	retry_1: std::string number;
 		bool present{ false };
 
 		std::cout << "\nENTER THE TRAIN NUMBER OF THE TRAIN TO BE REMOVED\nTRAIN NUMBER: ";
@@ -886,7 +873,7 @@ void remove_train_1(std::string route) {
 		}
 		else {
 			std::cout << number << " IS NOT A REGISTERED TRAIN IN " << route << " ROUTE\n";
-			goto retry;
+			goto retry_1;
 		}
 	}
 }
@@ -1098,13 +1085,13 @@ void update_station_1() {
 				std::string entry_4;
 				int opt_4;
 
-				std::cout << "1 - ADD A NEW TRAIN\n2 - REMOVE A TRAIN\n";
+				std::cout << "1 - ADD A NEW TRAIN\n2 - REMOVE A TRAIN\n3 - GO TO HOME\n";
 				do {
 					std::cout << "OPTION: ";
 					std::cin >> entry_4;
 
 					std::istringstream validator_4{ entry_4 };
-					if (validator_4 >> opt_4 && (opt_4 == 1 || opt_4 == 2)) {
+					if (validator_4 >> opt_4 && (opt_4 == 1 || opt_4 == 2 || opt_4 ==3)) {
 						done_4 = true;
 					}
 					else {
@@ -1116,8 +1103,11 @@ void update_station_1() {
 				if (opt_4 == 1) {
 					add_trains_1("yaba-ikorodu");
 				}
-				else {
+				else if(opt_4 ==2) {
 					remove_train_1("yaba-ikorodu");
+				}
+				else {
+					display_menu();
 				}
 
 			}
@@ -1126,10 +1116,6 @@ void update_station_1() {
 		default:
 			break;
 	}
-}
-
-void update_station_2() {
-
 }
 
 void view_trains(std::string route) {
@@ -1155,7 +1141,7 @@ void view_trains(std::string route) {
 		std::cout << "=====================================================================================================================================================================" << std::endl;
 		std::cout << std::setfill(' ') << std::setw(10) << std::left << "|TRAIN NO"
 			<< std::setw(15) << std::left << "| TRAIN NAME"
-			<< std::setw(35) << std::left << "| BOARDING POINT" << std::setw(35)<<std::left<<"| DESTINATION POINT"
+			<< std::setw(35) << std::left << "| BOARDING POINT & TIME" << std::setw(35)<<std::left<<"| DESTINATION POINT & TIME"
 			<< std::setw(15)<<std::left<<"| 1ST CLASS STS"<<std::setw(15)<<std::left<<"| 1ST CLASS FARE"
 			<< std::setw(20)<<std::left<<"| COMMERCIAL SEATS"<<std::setw(20)<<std::left<<"| COMMERCIAL FARE||"<<std::endl;
 		std::cout << "====================================================================================================================================================================="<< std::endl;
@@ -1472,8 +1458,178 @@ void display_reserves() {}
 void display_creserves() {}
 
 void user_mode() {
+	/*
+	1 - ASK THE USER FOR HIS FIRST NAME AND HIS LAST NAME AS HIS USERNAME AND PASSWORD
+	2 - IF HE IS GRANTED ACCESS, FINE, ELSE HE IS PROMPTED TO TRY AGAIN OR TO REGISTER (THE ADMIN IS CONTROLLING ALL THE TIME
+	FROM THE POINT OF VIEW OF THIS APPLICATION)
+	3 - 
+		SHOW RESERVATION
+			MAKE A RESERVATION
+			CANCEL RESERVATION
+	
+	*/
+	std::string f_name, l_name;
+	bool  status;
+
+	system("CLS");
+	std::cout << "\t\tENTER USER DETAILS\n";
+	std::cout << "FIRST NAME: ";
+	std::cin >> f_name;
+	f_name = capitalise(f_name);
+
+	std::cout << "LAST NAME: ";
+	std::cin >> l_name;
+	l_name = capitalise(l_name);
+
+	status = check_user(f_name, l_name);
+	
+	if (status == true) {
+		system("CLS");
+		reservations(f_name,l_name);
+
+		std::cout << "WELCOME TO THE ROAD " << f_name << std::endl;
+		std::cout << "1 - NEW RESERVATION\n2 - CANCEL RESERVATION\n3 - GO TO HOME\n";
+
+		bool done_r{ false };
+		std::string entry_r;
+		int opt_r;
+
+		do {
+			std::cout << "OPTION: ";
+			std::cin >> entry_r;
+			std::istringstream validator_r{ entry_r };
+
+			if (validator_r >> opt_r &&(opt_r == 1 || opt_r == 2||opt_r == 3)) {
+				done_r = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A VALID OPTION\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_r);
+
+		if (opt_r == 1) {
+			make_reservation(f_name,l_name);
+		}
+		else if (opt_r ==2){
+			cancel_reservation(f_name, l_name);
+		}
+		else {
+			display_menu();
+		}
+
+	}
+	else if(status == false) {
+		std::cout << l_name << " " << f_name << " IS NOT REGISTERED" << std::endl;
+		std::cout << "WOULD YOU LIKE TO REGISTER " << f_name << " ?\n1 - YES\n2 - N0\n0 - GO TO HOME";
+
+		bool done_n{ false };
+		std::string entry_n;
+		int opt_n;
+		do {
+			std::cout << "OPTION: ";
+			std::cin >> entry_n;
+			std::istringstream validator_n{ entry_n };
+
+			if (validator_n >> opt_n && (opt_n == 1 || opt_n == 2)) {
+				done_n = true;
+			}
+			else {
+				std::cout << "KINDLY ENTER A VALID OPTION\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+			}
+		} while (!done_n);
+
+		if (opt_n == 1) {
+			std::cout << "ENTER THE ADMIN MODE TO REGISTER A NEW CUSTOMER\n\n";
+		}
+		else {
+			display_menu();
+		}
+
+	}
+}
+
+bool check_user(std::string f_name,std::string l_name) {
+	bool status{ false };
+
+	std::ifstream in_file;
+	const char* path = "FILES/users.txt";
+	in_file.open(path);
+
+	if (!in_file) {
+		std::cout << "ERROR OPENING FILE\n\n";
+	}
+	else {
+		std::string line;
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream{ line };
+			std::vector<std::string> users;
+			std::string substr;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				users.push_back(substr);
+			}
+			/*
+			users.at(0) = serial number
+			users.at(1) = first name
+			users.at(2) = last name
+			users.at(3) = age
+			users.at(4) = sex
+			users.at(5) = category
+			*/
+			if (users.at(1) == f_name && users.at(2) == l_name) {
+				status = true;
+			}
+		}
+
+		in_file.close();
+	}
+	
+	return status;
+}
+
+void reservations(std::string f_name, std::string l_name) {
 
 }
+
+void make_reservation(std::string f_name, std::string l_name) {
+	system("CLS");
+	std::cout << "\t\tCHOOSE PREFERRED ROUTE\n";
+	std::cout << "1 - YABA - UNILAG\n2 - YABA - IKORODU\n";
+
+
+	bool done_r{ false };
+	std::string entry_r;
+	int opt_r;
+
+	do {
+		std::cout << "OPTION: ";
+		std::cin >> entry_r;
+		std::istringstream validator_r{ entry_r };
+
+		if (validator_r >> opt_r && (opt_r == 1 || opt_r == 2)) {
+			done_r = true;
+		}
+		else {
+			std::cout << "KINDLY ENTER A VALID OPTION\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+		}
+	} while (!done_r);
+
+	if (opt_r == 1) {
+		view_trains("yaba-unilag");
+	}
+	else {
+		view_trains("yaba-ikorodu");
+	}
+
+}
+void cancel_reservation(std::string f_name, std::string l_name) {
+
+}
+
 
 std::string capitalise(std::string word) {
 	std::string new_word{};
