@@ -39,6 +39,8 @@ void display_creserves();
 void reservations(std::string,std::string);
 void make_reservation(std::string,std::string);
 void cancel_reservation(std::string,std::string);
+bool check_number(std::string, std::string); // To check if the train number entered by the user is actually there at the moment
+
 
 int	 get_serialnum();
 bool check_user(std::string,std::string);
@@ -1485,9 +1487,9 @@ void user_mode() {
 	
 	if (status == true) {
 		system("CLS");
-		reservations(f_name,l_name);
+		reservations(f_name,l_name); //your current reservations should be displayed here...
 
-		std::cout << "WELCOME TO THE ROAD " << f_name << std::endl;
+		std::cout << "\n\nWELCOME TO THE ROAD " << f_name << std::endl;
 		std::cout << "1 - NEW RESERVATION\n2 - CANCEL RESERVATION\n3 - GO TO HOME\n";
 
 		bool done_r{ false };
@@ -1521,7 +1523,7 @@ void user_mode() {
 	}
 	else if(status == false) {
 		std::cout << l_name << " " << f_name << " IS NOT REGISTERED" << std::endl;
-		std::cout << "WOULD YOU LIKE TO REGISTER " << f_name << " ?\n1 - YES\n2 - N0\n0 - GO TO HOME";
+		std::cout << "WOULD YOU LIKE TO REGISTER " << f_name << " ?\n1 - YES\n2 - N0\n0 - GO TO HOME\n";
 
 		bool done_n{ false };
 		std::string entry_n;
@@ -1591,6 +1593,24 @@ bool check_user(std::string f_name,std::string l_name) {
 }
 
 void reservations(std::string f_name, std::string l_name) {
+	_mkdir("FILES/RESERVES");
+
+	const char* path_1 = "FILES/RESERVES/yaba-unilag.txt";
+	std::ofstream out_file(path_1,std::ios::app);
+	/*
+	1 - THE PERSON'S NAME IS PASSED
+	2 - THEN IF THERE IS UP TO 1 LINE, THE PROGRAM CHECKS IF THE FIRST NAME AND THE LAST NAME FEATURES
+	3 - IF IT DOES, THE RESERVATON IS DISPLAYED ON THE SCREEN
+	4 - IF THE DOCUMENT IS EMPTY, NOTHING IS DISPLAYED
+	5 - THE COUNT IS TAKEN... IF THE COUNT IS LESS THAN ZERO, THEN "YOU HAVE NO RESERVATIONS" IS DISPLAYED
+	*/
+	out_file.close();
+
+	const char* path_2 = "FILES/RESERVES/yaba-ikorodu.txt";
+	out_file.open(path_2, std::ios::app);
+
+	out_file.close();
+
 
 }
 
@@ -1620,12 +1640,177 @@ void make_reservation(std::string f_name, std::string l_name) {
 
 	if (opt_r == 1) {
 		view_trains("yaba-unilag");
+		/*
+		Then you ask the user
+		1 - enter the train number
+		2 - first class or commercial?
+		3 - Then the fee is shown and the user is asked if he/she would like to continue
+		4 - Then If he does so... The data of the user is added to the reservations
+		5 - Then the details of the train is updated...
+		*/
+		num_retry: std::cout << "ENTER THE TRAIN NUMBER: ";
+		std::string train_num;
+		std::cin >> train_num;
+		
+		bool done_train{ false };
+
+		do {
+			bool train_status = check_number(train_num, "yaba-unilag");
+			if (train_status == true) {
+				done_train = true;
+			}
+			else {
+				std::cout << train_num << " IS NOT A VALID TRAIN IN THIS ROUTE\n";
+				std::cout << "1 - ENTER ANOTHER TRAIN NUMBER\n2 - GO TO HOME\n";
+
+				//Data Validation...
+				bool done{ false };
+				std::string entry;
+				int num;
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry;
+					std::istringstream validator{ entry };
+					if (validator >> num && (num==1 ||num == 2)) {
+						done = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+
+				} while (!done);
+				if (num == 1) {
+					goto num_retry;
+				}
+				else {
+					done = true;
+					display_menu();
+				}
+
+			}
+		} while (!done_train);
+
 	}
 	else {
 		view_trains("yaba-ikorodu");
-	}
+		
+		/*
+		Then you ask the user
+		1 - enter the train number
+		2 - first class or commercial?
+		3 - Then the fee is shown and the user is asked if he/she would like to continue
+		4 - Then If he does so... The data of the user is added to the reservations
+		5 - Then the details of the train is updated...
+		*/
+	num_retry1: std::cout << "ENTER THE TRAIN NUMBER: ";
+		std::string train_num;
+		std::cin >> train_num;
 
+		bool done_train{ false };
+
+		do {
+			bool train_status = check_number(train_num, "yaba-ikorodu");
+			if (train_status == true) {
+				done_train = true;
+			}
+			else {
+				std::cout << train_num << " IS NOT A VALID TRAIN IN THIS ROUTE\n";
+				std::cout << "1 - ENTER ANOTHER TRAIN NUMBER\n2 - GO TO HOME\n";
+
+				//Data Validation...
+				bool done{ false };
+				std::string entry;
+				int num;
+				do {
+					std::cout << "OPTION: ";
+					std::cin >> entry;
+					std::istringstream validator{ entry };
+					if (validator >> num && (num == 1 || num == 2)) {
+						done = true;
+					}
+					else {
+						std::cout << "KINDLY ENTER A VALID INPUT\n\n";
+						std::cin.ignore(std::numeric_limits<std::streamsize> ::max(), '\n');
+					}
+
+				} while (!done);
+				if (num == 1) {
+					goto num_retry1;
+				}
+				else {
+					done = true;
+					display_menu();
+				}
+
+			}
+		} while (!done_train);
+	}
+	
+
+
+	/*
+	1 - The reservations are in terms of the trains...
+	2 - They are stored in a folder...
+	3 - When a user logs in, his reservations are displayed
+	4 - If he has no reservations, it is displayed there as well...
+	*/
 }
+
+bool check_number(std::string train_no, std::string route) {
+	
+	if (route == "yaba-unilag") {
+		std::string line;
+		bool status{ false };
+
+		const char* path_1 = "FILES/STATION_1/yaba-unilag.txt";
+		std::ifstream in_file;
+		in_file.open(path_1);
+
+		while (std::getline(in_file, line)) {
+			std::vector<std::string> trains;
+			std::string substr;
+			std::stringstream s_stream{ line };
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+			if (train_no == trains.at(0)) {
+				status = true;
+			}
+		}
+
+		in_file.close();
+		return status;
+	}
+	else if (route == "yaba-ikorodu") {
+		std::string line;
+		bool status{ false };
+
+		const char* path_1 = "FILES/STATION_1/yaba-ikorodu.txt";
+		std::ifstream in_file;
+		in_file.open(path_1);
+
+		while (std::getline(in_file, line)) {
+			std::vector<std::string> trains;
+			std::string substr;
+			std::stringstream s_stream{ line };
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+			if (train_no == trains.at(0)) {
+				status = true;
+			}
+		}
+
+		in_file.close();
+		return status;
+	}
+}
+
 void cancel_reservation(std::string f_name, std::string l_name) {
 
 }
