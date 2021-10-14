@@ -4,9 +4,45 @@
 /*
 things to implement
 
-1 - deduct from available spaces once a reservation is made
-2 - implement feature to cancel reservations
-3 - enable admin to view cancelled reservation
+3RD 
+
+RESERVATIONS FUNCTION
+beautify the display of reservations already made when a user logs in
+--- What should be on display there is the details of the trains that he has reserved
+--- the train number, the boarding and destination details and the category...
+--- All these details are being displayed from the reservations txt file...
+
+
+2ND 
+
+MODIFY THE MAKE_RESERVATIONS ASPECT
+
+modify the data that is displayed in the reservations to show the reservations by the train number
+Reservations
+ --yaba - unilag
+	-- train 001 
+		-- The name of the user , the boarding & destination details and the category of the user is stored here...
+		
+
+1ST
+
+- deduct from available spaces once a reservation is made
+	--This is done in the make_reservations section
+	--It is done by deducting one from the number of seats once the user confirms his reservation
+	--These are done in the trains txt file
+	--There is also a function here always brings in the number of seats available at the beginning of the function
+	(this is implemented by changing the number in the trains document)
+	(It is done during the user making the reservations)
+
+4TH
+- implement feature to cancel reservations
+
+5TH
+- enable admin to view cancelled reservation
+
+6TH
+- give the admin some flexibility so that he does not have to log out everytime
+
 c'est fini
 */
 
@@ -51,6 +87,9 @@ void make_reservation(std::string,std::string);
 void cancel_reservation(std::string,std::string);
 bool check_number(std::string, std::string); // To check if the train number entered by the user is actually there at the moment
 std::string fetch_details(std::string, std::string);
+int check_f_class_seats(std::string, std::string);
+int check_c_class_seats(std::string, std::string);
+
 
 int	 get_serialnum();
 bool check_user(std::string,std::string);
@@ -1692,7 +1731,9 @@ bool check_user(std::string f_name,std::string l_name) {
 void reservations(std::string f_name, std::string l_name) {
 	
 	
-	int count{ 0 };
+int count{ 0 };
+	bool status_1{ false }, status_2{ false };
+
 	std::ifstream in_file;
 	const char* path = "FILES/RESERVES/yaba-unilag.txt";
 	in_file.open(path);
@@ -1711,27 +1752,15 @@ void reservations(std::string f_name, std::string l_name) {
 				std::getline(s_stream, substr, '#');
 				users.push_back(substr);
 			}
-			/*
-			users.at(0) = serial number
-			users.at(1) = first name
-			users.at(2) = last name
-			users.at(3) = age
-			users.at(4) = sex
-			users.at(5) = category
-			*/
 			if (users.at(1) == f_name && users.at(2) == l_name) {
 				count++;
-				std::cout << "\t\tCURRENT RESERVATIONS (YABA - UNILAG)\n";
-				std::cout << std::setw(4) << std::left << users.at(0) << std::setw(20) << std::left << users.at(1) << std::setw(20) << std::left << users.at(2) << std::setw(5) << std::left << users.at(3) << std::setw(8) << std::left << users.at(4) << std::setw(15) << std::left << users.at(5) << std::setw(15) << std::left << users.at(6);
-
+				status_1 = true; //it means that this user has a reservation for the yaba - unilag trip.
 			}
 		}
-
 		in_file.close();
 	}
 
 	
-
 	const char* path_1 = "FILES/RESERVES/yaba-ikorodu.txt";
 	in_file.open(path_1);
 
@@ -1759,16 +1788,27 @@ void reservations(std::string f_name, std::string l_name) {
 			*/
 			if (users.at(1) == f_name && users.at(2) == l_name) {
 				count++;
-				std::cout << "\t\tCURRENT RESERVATIONS (YABA - IKORODU)\n";
-				std::cout << std::setw(4) << std::left << users.at(0) << std::setw(20) << std::left << users.at(1) << std::setw(20) << std::left << users.at(2) << std::setw(5) << std::left << users.at(3) << std::setw(8) << std::left << users.at(4) << std::setw(15) << std::left << users.at(5) << std::setw(15) << std::left << users.at(6);
-
+				status_2 = true;
 			}
 		}
 
 		in_file.close();
 	}
+
+
 	if (count == 0) {
 		std::cout << "YOU HAVE NO RESERVATIONS YET\n\n";
+	}
+	else {
+		if (status_1 = true) {
+			//the user has a reservation for the yaba to unilag train
+
+		}
+
+		if (status_2 = true) {
+			//the user has a reservation for the yaba to ikorodu train
+
+		}
 	}
 
 }
@@ -1836,7 +1876,139 @@ std::string fetch_details(std::string f_name, std::string l_name) {
 	return chosen;
 }
 
+int check_f_class_seats(std::string train_num, std::string route) {
+	if (route == "yaba-unilag") {
+		const char* path = "FILES/STATION_1/yaba-unilag.txt";
+		std::ifstream in_file;
+		in_file.open(path);
+
+		std::string line;
+		std::string f_seats;
+		int f_seat;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream{ line };
+			std::vector<std::string> trains;
+			std::string substr;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+
+			if (trains.at(0) == train_num) {
+				f_seats = trains.at(4);
+				f_seat = stoi(f_seats);
+			}
+		}
+
+		in_file.close();
+		return f_seat;
+	}
+	else if(route == "yaba-ikorodu") {
+		const char* path_1 = "FILES/STATION_1/yaba-ikorodu.txt";
+		std::ifstream in_file;
+		in_file.open(path_1);
+
+		std::string line;
+		std::string f_seats;
+		int f_seat;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream{ line };
+			std::vector<std::string> trains;
+			std::string substr;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+
+			if (trains.at(0) == train_num) {
+				f_seats = trains.at(4);
+				f_seat = stoi(f_seats);
+			}
+		}
+
+		in_file.close();
+		return f_seat;
+	}
+	
+}
+
+int check_c_class_seats(std::string train_num, std::string route) {
+	if (route == "yaba-unilag") {
+		const char* path = "FILES/STATION_1/yaba-unilag.txt";
+		std::ifstream in_file;
+		in_file.open(path);
+
+		std::string line;
+		std::string f_seats;
+		int f_seat;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream{ line };
+			std::vector<std::string> trains;
+			std::string substr;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+
+			if (trains.at(0) == train_num) {
+				f_seats = trains.at(6);
+				f_seat = stoi(f_seats);
+			}
+		}
+
+		in_file.close();
+		return f_seat;
+	}
+	else if (route == "yaba-ikorodu") {
+		const char* path_1 = "FILES/STATION_1/yaba-ikorodu.txt";
+		std::ifstream in_file;
+		in_file.open(path_1);
+
+		std::string line;
+		std::string f_seats;
+		int f_seat;
+
+		while (std::getline(in_file, line)) {
+			std::stringstream s_stream{ line };
+			std::vector<std::string> trains;
+			std::string substr;
+
+			while (s_stream.good()) {
+				std::getline(s_stream, substr, '#');
+				trains.push_back(substr);
+			}
+
+			if (trains.at(0) == train_num) {
+				f_seats = trains.at(6);
+				f_seat = stoi(f_seats);
+			}
+		}
+
+		in_file.close();
+		return f_seat;
+	}
+}
+
 void make_reservation(std::string f_name, std::string l_name) {
+
+	/*
+	1ST
+
+- deduct from available spaces once a reservation is made
+	--This is done in the make_reservations section
+	--It is done by deducting one from the number of seats once the user confirms his reservation
+	--These are done in the trains txt file
+	--There is also a function here always brings in the number of seats available at the beginning of the function
+	(this is implemented by changing the number in the trains document)
+	(It is done during the user making the reservations)
+	*/
+
 	system("CLS");
 	std::cout << "\t\tCHOOSE PREFERRED ROUTE\n";
 	std::cout << "1 - YABA - UNILAG\n2 - YABA - IKORODU\n";
@@ -1862,19 +2034,16 @@ void make_reservation(std::string f_name, std::string l_name) {
 
 	if (opt_r == 1) {
 		view_trains("yaba-unilag");
-		/*
-		Then you ask the user
-		1 - enter the train number
-		2 - first class or commercial?
-		3 - Then the fee is shown and the user is asked if he/she would like to continue
-		4 - Then If he does so... The data of the user is added to the reservations
-		5 - Then the details of the train is updated...
-		*/
 		num_retry: std::cout << "ENTER THE TRAIN NUMBER: ";
 		std::string train_num;
 		std::cin >> train_num;
 		
 		bool done_train{ false };
+
+
+		int f_class_seats, c_class_seats;
+		f_class_seats = check_f_class_seats(train_num, "yaba-unilag");
+		c_class_seats = check_c_class_seats(train_num, "yaba-unilag");
 
 		do {
 			bool train_status = check_number(train_num, "yaba-unilag");
@@ -1884,24 +2053,56 @@ void make_reservation(std::string f_name, std::string l_name) {
 				int choice = verify(1, 3);//Data validation is now done in this line of code...
 				if (choice == 1) {
 					//his details will be fetched and the the type of reservation will be attached...
-					const char* path_1 = "FILES/RESERVES/yaba-unilag.txt";
-					std::ofstream out_file(path_1, std::ios::app);
+					if (f_class_seats > 0) {
 
-					std::string details;
-					details = fetch_details(f_name, l_name);
-					out_file << details << "#" << "FIRST CLASS" << std::endl;
+						std::cout << "\nFIRST CLASS RESERVATION SUCCESSFULL\n";
+						//his details will be fetched and the the type of reservation will be attached...
+						const char* path_1 = "FILES/RESERVES/yaba-unilag.txt";
+						std::ofstream out_file(path_1, std::ios::app);
 
-					out_file.close();
+						std::string details;
+						details = fetch_details(f_name, l_name);
+						out_file << details << "#" << "FIRST CLASS" << std::endl;
+
+						out_file.close();
+					}
+					else {
+						std::cout << "SORRY THERE ARE NO SPACES LEFT" << std::endl;
+						std::cout << "1 - TRY ANOTHER TRAIN\n2 - GO TO HOME\n";
+						int relieve = verify(1, 2);
+						if (relieve == 1) {
+							goto num_retry1;
+						}
+						else {
+							display_menu();
+						}
+					}
 				}
 				else if(choice == 2){
-					const char* path_1 = "FILES/RESERVES/yaba-unilag.txt";
-					std::ofstream out_file(path_1, std::ios::app);
+					if (c_class_seats > 0) {
 
-					std::string details;
-					details = fetch_details(f_name, l_name);
-					out_file << details << "#" << "COMMERCIAL CLASS" << std::endl;
+						std::cout << "\nFIRST CLASS RESERVATION SUCCESSFULL\n";
+						//his details will be fetched and the the type of reservation will be attached...
+						const char* path_1 = "FILES/RESERVES/yaba-unilag.txt";
+						std::ofstream out_file(path_1, std::ios::app);
 
-					out_file.close();
+						std::string details;
+						details = fetch_details(f_name, l_name);
+						out_file << details << "#" << "FIRST CLASS" << std::endl;
+
+						out_file.close();
+					}
+					else {
+						std::cout << "SORRY THERE ARE NO SPACES LEFT" << std::endl;
+						std::cout << "1 - TRY ANOTHER TRAIN\n2 - GO TO HOME\n";
+						int relieve = verify(1, 2);
+						if (relieve == 1) {
+							goto num_retry1;
+						}
+						else {
+							display_menu();
+						}
+					}
 				}
 				else {
 					display_menu();
@@ -1960,34 +2161,77 @@ void make_reservation(std::string f_name, std::string l_name) {
 		do {
 			bool train_status = check_number(train_num, "yaba-ikorodu");
 			if (train_status == true) {
+				//check the number of first class and commercial class seats available here...
+
+				int f_class_seats, c_class_seats;
+				f_class_seats = check_f_class_seats(train_num, "yaba-ikorodu");
+				c_class_seats = check_c_class_seats(train_num, "yaba-ikorodu");
+
 				done_train = true;
 				std::cout << "TYPE OF RESERVATION\n1 - FIRST CLASS\n2 - COMMERCIAL\n3 - GO TO HOME\n";
 				int choice = verify(1, 3);//Data validation is now done in this line of code...
 				if (choice == 1) {
-					std::cout << "\nFIRST CLASS RESERVATION SUCCESSFULL\n";
-					//his details will be fetched and the the type of reservation will be attached...
-					const char* path_1 = "FILES/RESERVES/yaba-ikorodu.txt";
-					std::ofstream out_file(path_1, std::ios::app);
+					//check if there are enough first class seats here...
+					if (f_class_seats > 0) {
 
-					std::string details;
-					details = fetch_details(f_name, l_name);
-					out_file << details << "#" << "FIRST CLASS" << std::endl;
+						std::cout << "\nFIRST CLASS RESERVATION SUCCESSFULL\n";
+						//his details will be fetched and the the type of reservation will be attached...
+						const char* path_1 = "FILES/RESERVES/yaba-ikorodu.txt";
+						std::ofstream out_file(path_1, std::ios::app);
 
-					out_file.close();
+						std::string details;
+						details = fetch_details(f_name, l_name);
+						out_file << details << "#" << "FIRST CLASS" << std::endl;
+
+						out_file.close();
+					}
+					else {
+						std::cout << "SORRY THERE ARE NO SPACES LEFT" << std::endl;
+						std::cout << "1 - TRY ANOTHER TRAIN\n2 - GO TO HOME\n";
+						int relieve = verify(1, 2);
+						if (relieve == 1) {
+							goto num_retry1;
+						}
+						else {
+							display_menu();
+						}
+					}
+
 				}
 				else if (choice == 2) {
-					std::cout << "\nCOMMERCIAL CLASS RESERVATION SUCCESSFULL\n";
-					const char* path_1 = "FILES/RESERVES/yaba-ikorodu.txt";
-					std::ofstream out_file(path_1, std::ios::app);
+					// check if there are enough commercial class seats here........
+					//check if there are enough first class seats here...
+						if (c_class_seats > 0) {
 
-					std::string details;
-					details = fetch_details(f_name, l_name);
-					out_file << details << "#" << "COMMERCIAL CLASS" << std::endl;
+							std::cout << "\nFIRST CLASS RESERVATION SUCCESSFULL\n";
+							//his details will be fetched and the the type of reservation will be attached...
+							const char* path_1 = "FILES/RESERVES/yaba-ikorodu.txt";
+							std::ofstream out_file(path_1, std::ios::app);
 
-					out_file.close();
+							std::string details;
+							details = fetch_details(f_name, l_name);
+							out_file << details << "#" << "FIRST CLASS" << std::endl;
+
+							out_file.close();
+						}
+						else {
+							std::cout << "SORRY THERE ARE NO SPACES LEFT" << std::endl;
+							std::cout << "1 - TRY ANOTHER TRAIN\n2 - GO TO HOME\n";
+							int relieve = verify(1, 2);
+							if (relieve == 1) {
+								goto num_retry1;
+							}
+							else {
+								display_menu();
+							}
+						}
 				}
 				else {
 					display_menu();
+				}
+				
+				if (choice != 3) {
+					//deduct from the train here.......CONTINUE FROM HERE
 				}
 			}
 			else {
