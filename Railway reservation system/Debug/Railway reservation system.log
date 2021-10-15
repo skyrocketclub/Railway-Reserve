@@ -1,7 +1,9 @@
 ﻿  Railway reservation system.cpp
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1438,7): warning C4834: discarding return value of function with 'nodiscard' attribute
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1498,7): warning C4834: discarding return value of function with 'nodiscard' attribute
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1533,7): warning C4834: discarding return value of function with 'nodiscard' attribute
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(793): warning C4715: 'reg_train_1': not all control paths return a value
-C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(2089): warning C4715: 'check_number': not all control paths return a value
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1466,7): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1526,7): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1561,7): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(821): warning C4715: 'reg_train_1': not all control paths return a value
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1927): warning C4715: 'check_f_class_seats': not all control paths return a value
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(1986): warning C4715: 'check_c_class_seats': not all control paths return a value
+C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Railway reservation system\Railway reservation system.cpp(2467): warning C4715: 'check_number': not all control paths return a value
   Railway reservation system.vcxproj -> C:\Users\NWANKITI UGOCHUKWU\Desktop\CPP ++\My C++ Projects\Railway reservation system\Debug\Railway reservation system.exe

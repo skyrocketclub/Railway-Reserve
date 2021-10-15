@@ -1,1 +1,2 @@
-001#CATERINE#OPPOSITE YABA MARKET 9AM#UNILAG CAMPUS BUSTOP 9:30AM#20#1000#80#500
+001#yuky#yaba market 10:00 AM#campus bustop#19#499#80#250
+002#catherine#yaba market#unilag gate#20#500#80#250#
